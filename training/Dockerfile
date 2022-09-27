@@ -1,15 +1,16 @@
-FROM registry.fedoraproject.org/fedora:36
+FROM registry.access.redhat.com/ubi9/python-39:1-74
 
-RUN dnf -y install python3-pip && dnf clean all
+USER 0
 
+COPY data/chest_xray /data/chest_xray
 COPY requirements.txt /app/requirements.txt
 
-RUN python3 -m pip install -r /app/requirements.txt
+RUN /opt/app-root/bin/python3 -m pip install -r /app/requirements.txt
 
 COPY training.py /app/training.py
 
-VOLUME /data
+VOLUME /model
 WORKDIR /data
 
-ENTRYPOINT ["/usr/bin/python3"]
+ENTRYPOINT ["/opt/app-root/bin/python3"]
 CMD ["/app/training.py"]
