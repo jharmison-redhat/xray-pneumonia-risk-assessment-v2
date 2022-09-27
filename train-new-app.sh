@@ -8,6 +8,13 @@ cd "$(dirname "$(realpath "$0")")"
 
 pushd training
 
+if [ -d data/chest_xray ]; then
+    mkdir -p data
+    pushd data
+    s3cmd get --host s3.jharmison.com --recursive s3://xray
+    popd
+fi
+
 podman build . -t xray-training
 
 podman run --rm -it -v ../model:/model:z xray-training
