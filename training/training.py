@@ -5,6 +5,12 @@ from tensorflow.keras.layers import Activation, Dropout, Flatten, Dense
 from tensorflow.keras import backend as K
 
 import datetime
+from pathlib import Path
+
+now = datetime.datetime.now().isoformat()
+model_path = Path(f'/model/pneumonia_model_{now}.h5')
+# If this fails we lack write permission on /model
+model_path.touch()
 
 # dimensions of our images.
 img_width, img_height = 150, 150
@@ -85,7 +91,6 @@ model.fit(
     validation_steps=nb_validation_samples // batch_size
 )
 
-now = datetime.datetime.now().isoformat()
 scores = model.evaluate(test_generator)
 print("\n%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
-model.save(f'pneumonia_model_{now}.h5')
+model.save(model_path)
