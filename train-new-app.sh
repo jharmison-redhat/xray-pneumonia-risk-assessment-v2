@@ -8,7 +8,7 @@ cd "$(dirname "$(realpath "$0")")"
 
 pushd training
 
-if [ -d data/chest_xray ]; then
+if [ ! -d data/chest_xray ]; then
     mkdir -p data
     pushd data
     s3cmd get --host s3.jharmison.com --recursive s3://xray
