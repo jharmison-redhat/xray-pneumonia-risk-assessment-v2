@@ -8,7 +8,6 @@ from io import BytesIO
 
 import boto3
 import numpy as np
-from keras_preprocessing.image import load_img
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.models import load_model
 from tensorflow.keras.backend import clear_session
@@ -172,7 +171,9 @@ def load_image(bucket_name, img_path):
     logging.info(img_path)
     obj = s3client.get_object(Bucket=bucket_name, Key=img_path)
     img_stream = io.BytesIO(obj['Body'].read())
-    img = load_img(img_stream, target_size=(150, 150))
+    img = Image.open(img_stream)
+    img = img.convert('RGB')
+    img = img.resize((150, 150), Image.NEAREST)
     img_tensor = img_to_array(img)  # (height, width, channels)
     # (1, height, width, channels), add a dimension because the model expects
     #  this shape: (batch_size, height, width, channels)
