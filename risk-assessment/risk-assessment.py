@@ -93,10 +93,10 @@ def process_event(data):
             draw.text((0, 0), result['label'], (255), font=font)
 
             # Save image with "-processed" appended to name
-            computed_image_key = "-processed.".join(
+            computed_image_key = "-processed.".join([
                 os.path.splitext(img_key)[0],
                 os.path.splitext(img_key)[-1].strip('.')
-            )
+            ])
             buffer = BytesIO()
             img.save(buffer, get_safe_ext(computed_image_key))
             buffer.seek(0)
@@ -124,9 +124,9 @@ def process_event(data):
                 if len(split_key) == 1:
                     anonymized_image_key = anonymized_data['anon_img_name']
                 else:
-                    anonymized_image_key = "/".join(
+                    anonymized_image_key = "/".join([
                         split_key[0], anonymized_data['anon_img_name']
-                    )
+                    ])
                 anonymized_img = anonymized_data['img_anon']
                 buffer = BytesIO()
                 anonymized_img.save(buffer, get_safe_ext(anonymized_image_key))
