@@ -21,7 +21,7 @@ test_data_dir = './chest_xray/test'
 
 nb_train_samples = 5216
 nb_validation_samples = 16
-epochs = 20
+epochs = 100
 batch_size = 16
 
 if K.image_data_format() == 'channels_first':
